@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.InMemory
             _products.Add(product);
         }
 
-        public void Delete(Product product)
+        public void Delete(Product product) //Bütün nesneyi taşımaya gerek var mı?
         {
             _products.Remove(_products.Where(w=>w.ProductId==product.ProductId).FirstOrDefault());//benim kodum
             _products.Remove(_products.SingleOrDefault(p => p.ProductId == product.ProductId)); //Engin hoca
@@ -49,7 +49,8 @@ namespace DataAccess.Concrete.InMemory
 
         public List<Product> GetAllByCategory(int categoryId)
         {
-           return _products.Where(p => p.CategoryId == categoryId).ToList();
+           return _products.Where(p => p.CategoryId == categoryId).ToList(); //Engin Hoca versiyonu
+            //return _products.FindAll(p => p.CategoryId == categoryId).ToList();
         }
     }
 }
