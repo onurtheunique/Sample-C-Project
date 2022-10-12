@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFrameWork
 {
+    /* --->Bu haldeydi------------
     public class EfProductDal : IProductDal
     {
         public void Add(Product entity)
@@ -58,7 +60,11 @@ namespace DataAccess.Concrete.EntityFrameWork
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
 
-            }
+            } 
         }
     }
+    --------------------------------------------------------
+    ----> Bu hale geldi --------------*/
+    public class EfProductDal :EfEntityRepositoryBase<Product  ,NorthwindContext>,IProductDal //Burada IProductDal konulmasının sebebi --> IProductDal nesnesinin getirilmesinde bu nesneye has joinler lookuplar vb gerekliliklerin implement edilmeye zorlanmasıdır. Her tablo doğrudan GetAll yapılamayabilir
+    { }
 }
