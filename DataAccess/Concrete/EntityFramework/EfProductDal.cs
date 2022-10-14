@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,25 @@ namespace DataAccess.Concrete.EntityFrameWork
     }
     --------------------------------------------------------
     ----> Bu hale geldi --------------*/
-    public class EfProductDal :EfEntityRepositoryBase<Product  ,NorthwindContext>,IProductDal //Burada IProductDal konulmasının sebebi --> IProductDal nesnesinin getirilmesinde bu nesneye has joinler lookuplar vb gerekliliklerin implement edilmeye zorlanmasıdır. Her tablo doğrudan GetAll yapılamayabilir
-    { }
+    public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal //Burada IProductDal konulmasının sebebi --> IProductDal nesnesinin getirilmesinde bu nesneye has joinler lookuplar vb gerekliliklerin implement edilmeye zorlanmasıdır. Her tablo doğrudan GetAll yapılamayabilir
+    {
+        public List<ProductDetailDto> GetProductDetailDtos()
+        {
+            using (NorthwindContext context=new NorthwindContext())
+            {
+                var result = from p in context.Products
+                             join c in context.Categories
+                             on p.CategoryId equals c.CategoryId
+                             select new ProductDetailDto
+                             {
+                                 ProductId = p.ProductId,
+                                 ProductName = p.ProductName,
+                                 CategoryName = c.CategoryName,
+                                 UnitsInStock = p.UnitsInStock
+                             };
+                return result.ToList();
+            }
+         
+        }
+    }
 }
