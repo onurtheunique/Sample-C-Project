@@ -36,11 +36,18 @@ namespace ConsoleUI
 
         private static void ProductTest()
         {
-            ProductManager productManager = new ProductManager(new EfProductDal()); //dbden çağır         
-            foreach (var product in productManager.GetProductDetailDtos())
+            ProductManager productManager = new ProductManager(new EfProductDal()); //dbden çağır
+            var result = productManager.GetProductDetailDtos();
+            //if (result.Success==true) --->  Hocanın versiyonu  
+            if (result.Success)
             {
-                Console.WriteLine(product.ProductName + "/"+ product.CategoryName);
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+                }
             }
+            else { Console.WriteLine(result.Message); } 
+                
         }
     }
 }
