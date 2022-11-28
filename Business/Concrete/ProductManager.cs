@@ -31,6 +31,7 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))] //--> Bu metodu ProductValidator kullanarak doğrula
         public IResult Add(Product product)
         {
