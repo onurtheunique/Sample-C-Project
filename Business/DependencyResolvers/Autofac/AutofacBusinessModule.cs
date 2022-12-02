@@ -5,7 +5,9 @@ using Business.Concrete;
 using Business.CSS;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFrameWork;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,12 @@ namespace Business.DependencyResolvers.Autofac
                 {
                     Selector = new AspectInterceptorSelector()
                 }).SingleInstance();
+
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
         }
     }
 }
